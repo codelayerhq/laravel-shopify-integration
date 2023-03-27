@@ -1,24 +1,25 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "codelayer/laravel-shopify-integration",
+    "description": "This package integrates Shopify with Laravel",
     "keywords": [
-        ":vendor_name",
+        "codelayer",
         "laravel",
-        ":package_slug"
+        "laravel-shopify-integration"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/codelayer/laravel-shopify-integration",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "codelyer GmbH",
+            "email": "mail@codelayer.de",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "illuminate/contracts": "^10.0",
+        "shopify/shopify-api": "^4.2",
+        "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -30,18 +31,17 @@
         "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.26"
+        "phpstan/phpstan-phpunit": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Codelayer\\LaravelShopifyIntegration\\": "src/",
+            "Codelayer\\LaravelShopifyIntegration\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Codelayer\\LaravelShopifyIntegration\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Codelayer\\LaravelShopifyIntegration\\LaravelShopifyIntegrationServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelShopifyIntegration": "Codelayer\\LaravelShopifyIntegration\\Facades\\LaravelShopifyIntegration"
             }
         }
     },
