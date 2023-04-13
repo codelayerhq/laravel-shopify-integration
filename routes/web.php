@@ -2,7 +2,6 @@
 
 use Codelayer\LaravelShopifyIntegration\Http\Controllers\ShopifyAuthController;
 use Codelayer\LaravelShopifyIntegration\Http\Controllers\ShopifyFallbackController;
-use Codelayer\LaravelShopifyIntegration\Http\Controllers\ShopifyWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
