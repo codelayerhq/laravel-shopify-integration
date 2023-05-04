@@ -33,6 +33,6 @@ class ShopifyWebhookController extends Controller
             return response()->json(['message' => "Got an exception when handling '$topic' webhook"], 500);
         }
 
-        return response()->json(['message' => "Got an exception when handling '$topic' webhook"], 500);
+        return response()->json();
     }
 }
