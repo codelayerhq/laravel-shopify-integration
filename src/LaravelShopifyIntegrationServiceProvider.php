@@ -6,6 +6,7 @@ use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifyInstalled;
 use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifySession;
 use Codelayer\LaravelShopifyIntegration\Lib\DbSessionStorage;
 use Illuminate\Routing\Router;
+use Shopify\ApiVersion;
 use Shopify\Context;
 use Shopify\Exception\MissingArgumentException;
 use Spatie\LaravelPackageTools\Package;
@@ -51,6 +52,7 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
             scopes: config('shopify-integration.app_scopes', ''),
             hostName: $hostname,
             sessionStorage: new DbSessionStorage(),
+            apiVersion: config('shopify-integration.shopify_api_version', ApiVersion::LATEST),
             customShopDomains: (array) $customDomain,
         );
     }

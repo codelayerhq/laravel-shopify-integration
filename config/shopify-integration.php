@@ -7,6 +7,7 @@ return [
 
     'shopify_api_key' => env('SHOPIFY_API_KEY', 'not_defined'),
     'shopify_api_secret' => env('SHOPIFY_API_SECRET', 'not_defined'),
+    'shopify_api_version' => env('SHOPIFY_API_VERSION', null),
     'app_scopes' => env('SCOPES', 'not_defined'),
     'shop_custom_domain' => env('SHOP_CUSTOM_DOMAIN', null),
 
