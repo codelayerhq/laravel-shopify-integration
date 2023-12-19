@@ -3,6 +3,7 @@
 namespace Codelayer\LaravelShopifyIntegration;
 
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
+use Codelayer\LaravelShopifyIntegration\Events\ShopifyShopUpdated;
 use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifyInstalled;
 use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifySession;
 use Codelayer\LaravelShopifyIntegration\Lib\DbSessionStorage;
@@ -45,6 +46,7 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
     private function configurePackageEvents(): void
     {
         Event::listen(ShopifyAppInstalled::class, RefreshShopDevelopmentState::class);
+        Event::listen(ShopifyShopUpdated::class, RefreshShopDevelopmentState::class);
     }
 
     /**
