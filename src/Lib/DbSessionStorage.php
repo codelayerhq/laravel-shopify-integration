@@ -63,6 +63,7 @@ class DbSessionStorage implements SessionStorage
                 'access_token' => $session->getAccessToken(),
                 'expires_at' => $session->getExpires(),
                 'scope' => $session->getScope(),
+                'is_development_shop' => app(ShopifyDevelopmentShopHandler::class)->fetchIsDevelopmentShop($session),
 
                 'user_id' => $session->getOnlineAccessInfo()?->getId(),
                 'user_first_name' => $session->getOnlineAccessInfo()?->getFirstName(),

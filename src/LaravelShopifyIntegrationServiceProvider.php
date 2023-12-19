@@ -24,7 +24,7 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-shopify-integration')
             ->hasConfigFile()
-            ->hasMigration('create_shopify_sessions_table')
+            ->hasMigrations(['create_shopify_sessions_table', 'add_is_development_shop_to_shopify_sessions'])
             ->hasRoutes('web', 'api');
 
         $router = $this->app->make(Router::class);
