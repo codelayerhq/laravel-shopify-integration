@@ -2,10 +2,13 @@
 
 namespace Codelayer\LaravelShopifyIntegration;
 
+use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
 use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifyInstalled;
 use Codelayer\LaravelShopifyIntegration\Http\Middleware\EnsureShopifySession;
 use Codelayer\LaravelShopifyIntegration\Lib\DbSessionStorage;
+use Codelayer\LaravelShopifyIntegration\Listeners\RefreshShopDevelopmentState;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Event;
 use Shopify\ApiVersion;
 use Shopify\Context;
 use Shopify\Exception\MissingArgumentException;
@@ -33,9 +36,15 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
 
         try {
             $this->configureShopifyContext();
+            $this->configurePackageEvents();
         } catch (MissingArgumentException $e) {
             report($e);
         }
+    }
+
+    private function configurePackageEvents(): void
+    {
+        Event::listen(ShopifyAppInstalled::class, RefreshShopDevelopmentState::class);
     }
 
     /**
