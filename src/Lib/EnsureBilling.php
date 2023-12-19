@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Codelayer\LaravelShopifyIntegration\Lib;
 
 use Codelayer\LaravelShopifyIntegration\Exceptions\ShopifyBillingException;
+use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Shopify\Auth\Session;
 use Shopify\Clients\Graphql;
 use Shopify\Context;
@@ -40,7 +41,7 @@ class EnsureBilling
     {
         $confirmationUrl = null;
 
-        if (self::hasActivePayment($session, $config)) {
+        if (self::isDevelopmentShop($session) || self::hasActivePayment($session, $config)) {
             $hasPayment = true;
         } else {
             $hasPayment = false;
@@ -57,6 +58,13 @@ class EnsureBilling
         } else {
             return self::hasOneTimePayment($session, $config);
         }
+    }
+
+    private static function isDevelopmentShop(Session $session): bool
+    {
+        $dbSession = ShopifySession::where('session_id', $session->getId())->firstOrFail();
+
+        return $dbSession->is_development_shop;
     }
 
     private static function hasSubscription(Session $session, array $config): bool
