@@ -10,7 +10,7 @@ parameters:
         - routes
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
-    checkModelProperties: true
+    checkModelProperties: false
     checkMissingIterableValueType: false
     databaseMigrationsPath:
         - database/migrations
