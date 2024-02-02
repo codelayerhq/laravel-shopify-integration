@@ -32,8 +32,8 @@ class EnsureBilling
      *                         - "currencyCode": string
      *                         - "interval": one of the INTERVAL_* consts
      * @return array Array containing
-     * - hasPayment: bool
-     * - confirmationUrl: string|null
+     *               - hasPayment: bool
+     *               - confirmationUrl: string|null
      *
      * @throws ShopifyBillingException
      */
