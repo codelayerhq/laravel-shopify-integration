@@ -2,13 +2,17 @@
 
 namespace Codelayer\LaravelShopifyIntegration\Models;
 
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property bool $is_development_shop
  */
-class ShopifySession extends Model
+class ShopifySession extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
+
     protected $guarded = [
         'id',
     ];
