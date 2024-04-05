@@ -57,11 +57,11 @@ class EnsureShopifySession
         }
 
         if ($session && $session->isValid()) {
-            if (Config::get('shopify.billing.required')) {
+            if (Config::get('shopify-integration.billing.required')) {
                 // The request to check billing status serves to validate that the access token is still valid.
                 try {
                     [$hasPayment, $confirmationUrl] =
-                        EnsureBilling::check($session, Config::get('shopify.billing'));
+                        EnsureBilling::check($session, Config::get('shopify-integration.billing'));
                     $proceed = true;
 
                     if (! $hasPayment) {
