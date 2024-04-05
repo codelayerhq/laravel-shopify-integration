@@ -32,5 +32,6 @@ return [
         'amount' => 5.0,
         'currencyCode' => 'USD', // Currently only supports USD
         'interval' => EnsureBilling::INTERVAL_ONE_TIME,
+        'trialDays' => null,
     ],
 ];
