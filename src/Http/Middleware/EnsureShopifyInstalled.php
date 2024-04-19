@@ -3,9 +3,11 @@
 namespace Codelayer\LaravelShopifyIntegration\Http\Middleware;
 
 use Closure;
-use Codelayer\LaravelShopifyIntegration\Lib\AuthRedirection;
+use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
+use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
 use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
+use Shopify\Context;
 use Shopify\Utils;
 
 class EnsureShopifyInstalled
@@ -19,9 +21,17 @@ class EnsureShopifyInstalled
     {
         $shop = $request->query('shop') ? Utils::sanitizeShopDomain($request->query('shop')) : null;
 
-        $appInstalled = $shop && ShopifySession::where('shop', $shop)->where('access_token', '<>', null)->exists();
+        $appInstalled = $shop && ShopifySession::where('shop', $shop)->where('access_token', '<>', null)->where('scope', Context::$SCOPES->toString())->exists();
         $isExitingIframe = preg_match('/^ExitIframe/i', $request->path());
 
-        return ($appInstalled || $isExitingIframe) ? $next($request) : AuthRedirection::redirect($request);
+        if ($appInstalled || $isExitingIframe) {
+            return $next($request);
+        }
+
+        ShopifyOAuth::authorizeFromRequest($request);
+
+        event(new ShopifyAppInstalled($shop));
+
+        return $next($request);
     }
 }
