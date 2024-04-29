@@ -4,6 +4,7 @@ namespace Codelayer\LaravelShopifyIntegration\Http\Middleware;
 
 use Closure;
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
+use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
 use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
 use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
@@ -28,9 +29,20 @@ class EnsureShopifyInstalled
             return $next($request);
         }
 
-        ShopifyOAuth::authorizeFromRequest($request);
+        $session = ShopifyOAuth::authorizeFromRequest($request);
 
         event(new ShopifyAppInstalled($shop));
+
+        if (config('shopify-integration.billing.required')) {
+            [$hasPayment, $confirmationUrl] = EnsureBilling::check(
+                $session,
+                config('shopify-integration.billing')
+            );
+
+            if (! $hasPayment) {
+                return redirect($confirmationUrl);
+            }
+        }
 
         return $next($request);
     }
