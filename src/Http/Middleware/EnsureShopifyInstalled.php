@@ -6,7 +6,6 @@ use Closure;
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
 use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
 use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
-use Codelayer\LaravelShopifyIntegration\Lib\TopLevelRedirection;
 use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
 use Shopify\Context;
@@ -26,13 +25,17 @@ class EnsureShopifyInstalled
         $appInstalled = $shop && ShopifySession::where('shop', $shop)->where('access_token', '<>', null)->where('scope', Context::$SCOPES->toString())->exists();
         $isExitingIframe = preg_match('/^ExitIframe/i', $request->path());
 
-        if ($appInstalled || $isExitingIframe) {
+        if ($isExitingIframe) {
             return $next($request);
         }
 
-        $session = ShopifyOAuth::authorizeFromRequest($request);
+        if (! $appInstalled) {
+            $session = ShopifyOAuth::authorizeFromRequest($request);
 
-        event(new ShopifyAppInstalled($shop));
+            event(new ShopifyAppInstalled($shop));
+        }
+
+        $session ??= Utils::loadOfflineSession($shop);
 
         if (config('shopify-integration.billing.required')) {
             [$hasPayment, $confirmationUrl] = EnsureBilling::check(
@@ -41,7 +44,11 @@ class EnsureShopifyInstalled
             );
 
             if (! $hasPayment) {
-                return TopLevelRedirection::redirect($request, $confirmationUrl);
+                $queryString = http_build_query(array_merge($request->query(), ['redirectUri' => urlencode($confirmationUrl)]));
+
+                $redirectUrl = "/ExitIframe?$queryString";
+
+                return redirect($redirectUrl);
             }
         }
 
