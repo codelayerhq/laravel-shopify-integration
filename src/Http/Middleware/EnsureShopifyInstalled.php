@@ -6,6 +6,7 @@ use Closure;
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
 use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
 use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
+use Codelayer\LaravelShopifyIntegration\Lib\TopLevelRedirection;
 use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
 use Shopify\Context;
@@ -40,7 +41,7 @@ class EnsureShopifyInstalled
             );
 
             if (! $hasPayment) {
-                return redirect($confirmationUrl);
+                return TopLevelRedirection::redirect($request, $confirmationUrl);
             }
         }
 
