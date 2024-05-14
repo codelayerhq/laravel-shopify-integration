@@ -237,12 +237,14 @@ class EnsureBilling
         $lineItems: [AppSubscriptionLineItemInput!]!
         $returnUrl: URL!
         $test: Boolean
+        $trialDays: Int
     ) {
         appSubscriptionCreate(
             name: $name
             lineItems: $lineItems
             returnUrl: $returnUrl
             test: $test
+            trialDays: $trialDays
         ) {
             confirmationUrl
             userErrors {
