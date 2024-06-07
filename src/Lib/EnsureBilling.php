@@ -73,10 +73,7 @@ class EnsureBilling
         $subscriptions = $responseBody['data']['currentAppInstallation']['activeSubscriptions'];
 
         foreach ($subscriptions as $subscription) {
-            if (
-                $subscription['name'] === $config['chargeName'] &&
-                (! self::isProd())
-            ) {
+            if ($subscription['name'] === $config['chargeName']) {
                 return true;
             }
         }
