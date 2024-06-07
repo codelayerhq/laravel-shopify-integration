@@ -75,7 +75,7 @@ class EnsureBilling
         foreach ($subscriptions as $subscription) {
             if (
                 $subscription['name'] === $config['chargeName'] &&
-                (! self::isProd() || ! $subscription['test'])
+                (! self::isProd())
             ) {
                 return true;
             }
