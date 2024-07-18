@@ -9,7 +9,5 @@ class ShopifyAppInstalled
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public string $shop)
-    {
-    }
+    public function __construct(public string $shop) {}
 }

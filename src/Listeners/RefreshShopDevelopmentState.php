@@ -13,8 +13,7 @@ class RefreshShopDevelopmentState
     public function __construct(
         private ShopifySessionHandler $sessionHandler,
         private ShopifyDevelopmentShopHandler $developmentShopHandler,
-    ) {
-    }
+    ) {}
 
     /**
      * Handle the given event.
