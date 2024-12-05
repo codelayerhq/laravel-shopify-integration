@@ -6,9 +6,7 @@ use Closure;
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
 use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
 use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
-use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
-use Shopify\Context;
 use Shopify\Utils;
 
 class EnsureShopifyInstalled
@@ -22,7 +20,10 @@ class EnsureShopifyInstalled
     {
         $shop = $request->query('shop') ? Utils::sanitizeShopDomain($request->query('shop')) : null;
 
-        $appInstalled = $shop && ShopifySession::where('shop', $shop)->where('access_token', '<>', null)->where('scope', Context::$SCOPES->toString())->exists();
+        $session = Utils::loadOfflineSession($shop);
+
+        $appInstalled = ! empty($session);
+
         $isExitingIframe = preg_match('/^ExitIframe/i', $request->path());
 
         if ($isExitingIframe) {
@@ -34,8 +35,6 @@ class EnsureShopifyInstalled
 
             event(new ShopifyAppInstalled($shop));
         }
-
-        $session ??= Utils::loadOfflineSession($shop);
 
         if (config('shopify-integration.billing.required')) {
             [$hasPayment, $confirmationUrl] = EnsureBilling::check(
