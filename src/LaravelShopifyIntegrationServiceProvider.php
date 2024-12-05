@@ -62,7 +62,7 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
             apiSecretKey: config('shopify-integration.shopify_api_secret', 'not-set'),
             scopes: config('shopify-integration.app_scopes', ''),
             hostName: $hostname,
-            sessionStorage: new DbSessionStorage(),
+            sessionStorage: new DbSessionStorage,
             apiVersion: config('shopify-integration.shopify_api_version', ApiVersion::LATEST),
             customShopDomains: (array) $customDomain,
         );

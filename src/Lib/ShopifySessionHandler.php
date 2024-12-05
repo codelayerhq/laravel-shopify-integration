@@ -26,7 +26,7 @@ class ShopifySessionHandler
     public function sessionIsValid(Session $session): bool
     {
         return $session->getAccessToken() &&
-            (! $session->getExpires() || ($session->getExpires() > new DateTime()));
+            (! $session->getExpires() || ($session->getExpires() > new DateTime));
     }
 
     private function loadOfflineSession(string $shop, bool $includeExpired = false): ?Session

@@ -6,9 +6,7 @@ use Closure;
 use Codelayer\LaravelShopifyIntegration\Events\ShopifyAppInstalled;
 use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
 use Codelayer\LaravelShopifyIntegration\Lib\ShopifyOAuth;
-use Codelayer\LaravelShopifyIntegration\Models\ShopifySession;
 use Illuminate\Http\Request;
-use Shopify\Context;
 use Shopify\Utils;
 
 class EnsureShopifyInstalled
@@ -24,7 +22,7 @@ class EnsureShopifyInstalled
 
         $session = Utils::loadOfflineSession($shop);
 
-        $appInstalled = !empty($session);
+        $appInstalled = ! empty($session);
 
         $isExitingIframe = preg_match('/^ExitIframe/i', $request->path());
 
