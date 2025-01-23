@@ -29,7 +29,11 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
             ->name('laravel-shopify-integration')
             ->hasConfigFile()
             ->hasMigrations(['create_shopify_sessions_table', 'add_is_development_shop_to_shopify_sessions'])
-            ->hasRoutes('web', 'api');
+            ->hasRoutes('api');
+
+        if (config('shopify-integration.register_fallback_route', true)) {
+            $package->hasRoutes('web');
+        }
 
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('shopify.auth', EnsureShopifySession::class);

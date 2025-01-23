@@ -11,6 +11,8 @@ return [
     'app_scopes' => env('SCOPES', 'not_defined'),
     'shop_custom_domain' => env('SHOP_CUSTOM_DOMAIN', null),
 
+    'register_fallback_route' => true,
+
     /*
     |--------------------------------------------------------------------------
     | Shopify billing
