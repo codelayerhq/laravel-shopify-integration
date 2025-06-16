@@ -19,6 +19,9 @@ class EnsureShopifyInstalled
     public function handle(Request $request, Closure $next)
     {
         $shop = $request->query('shop') ? Utils::sanitizeShopDomain($request->query('shop')) : null;
+        if (! $shop) {
+            return response(status: 401);
+        }
 
         $session = Utils::loadOfflineSession($shop);
 
