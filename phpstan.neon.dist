@@ -11,6 +11,5 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: false
-    checkMissingIterableValueType: false
     databaseMigrationsPath:
         - database/migrations
