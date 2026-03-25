@@ -1,13 +1,14 @@
 <?php
 
 use Codelayer\LaravelShopifyIntegration\Lib\EnsureBilling;
+use Shopify\ApiVersion;
 
 return [
     'frontend_directory_path' => 'resources/frontend/',
 
     'shopify_api_key' => env('SHOPIFY_API_KEY', 'not_defined'),
     'shopify_api_secret' => env('SHOPIFY_API_SECRET', 'not_defined'),
-    'shopify_api_version' => env('SHOPIFY_API_VERSION', \Shopify\ApiVersion::APRIL_2025),
+    'shopify_api_version' => env('SHOPIFY_API_VERSION', ApiVersion::APRIL_2025),
     'app_scopes' => env('SCOPES', 'not_defined'),
     'shop_custom_domain' => env('SHOP_CUSTOM_DOMAIN', null),
 
