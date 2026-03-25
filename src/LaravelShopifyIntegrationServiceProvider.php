@@ -67,7 +67,7 @@ class LaravelShopifyIntegrationServiceProvider extends PackageServiceProvider
             scopes: config('shopify-integration.app_scopes', ''),
             hostName: $hostname,
             sessionStorage: new DbSessionStorage,
-            apiVersion: config('shopify-integration.shopify_api_version', ApiVersion::LATEST),
+            apiVersion: config('shopify-integration.shopify_api_version', ApiVersion::APRIL_2025),
             customShopDomains: (array) $customDomain,
         );
     }
