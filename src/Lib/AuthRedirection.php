@@ -45,6 +45,7 @@ class AuthRedirection
         );
     }
 
+    /** @param  array<string, mixed>  $query */
     private static function clientSideRedirectUrl(string $shop, array $query): string
     {
         $appHost = Context::$HOST_NAME;

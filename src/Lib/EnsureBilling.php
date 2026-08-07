@@ -18,6 +18,7 @@ class EnsureBilling
 
     public const INTERVAL_ANNUAL = 'ANNUAL';
 
+    /** @var array<string> */
     private static array $RECURRING_INTERVALS = [
         self::INTERVAL_EVERY_30_DAYS, self::INTERVAL_ANNUAL,
     ];
@@ -26,14 +27,14 @@ class EnsureBilling
      * Check if the given session has an active payment based on the configs.
      *
      * @param  Session  $session  The current session to check
-     * @param  array  $config  Associative array that accepts keys:
-     *                         - "chargeName": string, the name of the charge
-     *                         - "amount": float
-     *                         - "currencyCode": string
-     *                         - "interval": one of the INTERVAL_* consts
-     * @return array Array containing
-     *               - hasPayment: bool
-     *               - confirmationUrl: string|null
+     * @param  array<string, mixed>  $config  Associative array that accepts keys:
+     *                                        - "chargeName": string, the name of the charge
+     *                                        - "amount": float
+     *                                        - "currencyCode": string
+     *                                        - "interval": one of the INTERVAL_* consts
+     * @return array{bool, string|null} Array containing
+     *                                  - hasPayment: bool
+     *                                  - confirmationUrl: string|null
      *
      * @throws ShopifyBillingException
      */
@@ -51,6 +52,7 @@ class EnsureBilling
         return [$hasPayment, $confirmationUrl];
     }
 
+    /** @param  array<string, mixed>  $config */
     private static function hasActivePayment(Session $session, array $config): bool
     {
         if (self::isRecurring($config)) {
@@ -67,6 +69,7 @@ class EnsureBilling
         return $dbSession->is_development_shop;
     }
 
+    /** @param  array<string, mixed>  $config */
     private static function hasSubscription(Session $session, array $config): bool
     {
         $responseBody = self::queryOrException($session, self::RECURRING_PURCHASES_QUERY);
@@ -81,6 +84,7 @@ class EnsureBilling
         return false;
     }
 
+    /** @param  array<string, mixed>  $config */
     private static function hasOneTimePayment(Session $session, array $config): bool
     {
         $purchases = null;
@@ -113,6 +117,7 @@ class EnsureBilling
     }
 
     /**
+     * @param  array<string, mixed>  $config
      * @return string|null
      */
     private static function requestPayment(Session $session, array $config)
@@ -137,6 +142,10 @@ class EnsureBilling
         return $data['confirmationUrl'];
     }
 
+    /**
+     * @param  array<string, mixed>  $config
+     * @return array<string, mixed>
+     */
     private static function requestRecurringPayment(Session $session, array $config, string $returnUrl): array
     {
         return self::queryOrException(
@@ -161,6 +170,10 @@ class EnsureBilling
         );
     }
 
+    /**
+     * @param  array<string, mixed>  $config
+     * @return array<string, mixed>
+     */
     private static function requestOneTimePayment(Session $session, array $config, string $returnUrl): array
     {
         return self::queryOrException(
@@ -182,11 +195,16 @@ class EnsureBilling
         return app()->environment() === 'production';
     }
 
+    /** @param  array<string, mixed>  $config */
     private static function isRecurring(array $config): bool
     {
         return in_array($config['interval'], self::$RECURRING_INTERVALS);
     }
 
+    /**
+     * @param  string|array<string, mixed>  $query
+     * @return array<string, mixed>|string|null
+     */
     private static function queryOrException(Session $session, string|array $query): array|string|null
     {
         $client = new Graphql($session->getShop(), $session->getAccessToken());
