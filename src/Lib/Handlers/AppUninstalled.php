@@ -10,6 +10,7 @@ use Shopify\Webhooks\Handler;
 
 class AppUninstalled implements Handler
 {
+    /** @param  array<string, mixed>  $body */
     public function handle(string $topic, string $shop, array $body): void
     {
         Log::debug("App was uninstalled from $shop - removing all sessions");

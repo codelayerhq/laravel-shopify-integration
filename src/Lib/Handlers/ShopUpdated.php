@@ -7,6 +7,7 @@ use Shopify\Webhooks\Handler;
 
 class ShopUpdated implements Handler
 {
+    /** @param  array<string, mixed>  $body */
     public function handle(string $topic, string $shop, array $body): void
     {
         event(new ShopifyShopUpdated($shop));

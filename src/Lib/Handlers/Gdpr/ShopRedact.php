@@ -15,6 +15,7 @@ use Shopify\Webhooks\Handler;
  */
 class ShopRedact implements Handler
 {
+    /** @param  array<string, mixed>  $body */
     public function handle(string $topic, string $shop, array $body): void
     {
         Log::debug("Handling GDPR shop redaction request for $shop");
