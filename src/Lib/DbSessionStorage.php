@@ -53,6 +53,18 @@ class DbSessionStorage implements SessionStorage
 
     public function storeSession(Session $session): bool
     {
+        // Starting OAuth stores a session that only holds the OAuth state under the shop's offline session id.
+        // Keep the access token and scope of an already authorized session until the OAuth flow is completed.
+        if (! $session->getAccessToken()) {
+            $updated = SessionModel::where('session_id', $session->getId())
+                ->whereNotNull('access_token')
+                ->update(['state' => $session->getState()]);
+
+            if ($updated > 0) {
+                return true;
+            }
+        }
+
         $model = SessionModel::updateOrCreate(
             ['session_id' => $session->getId()],
             [
